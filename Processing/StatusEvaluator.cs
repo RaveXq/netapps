@@ -2,10 +2,12 @@ using IoTTelemetryLab.Models;
 
 namespace IoTTelemetryLab.Processing;
 
+/*
 /// <summary>
 /// Визначає рівень небезпеки показу датчика.
 /// </summary>
 public enum SafetyStatus { Normal, Warning, Critical }
+*/
 
 /// <summary>
 /// Оцінює стан датчика за типом фізичної величини та її значенням.
