@@ -8,5 +8,6 @@ public enum SensorType
     Temperature,
     Vibration,
     Voltage,
-    SoundLevel
+    SoundLevel,
+    RotationSpeed
 }

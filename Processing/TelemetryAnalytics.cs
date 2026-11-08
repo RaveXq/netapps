@@ -1,4 +1,5 @@
 using IoTTelemetryLab.Models;
+using IoTTelemetryLab.Evaluation;
 
 namespace IoTTelemetryLab.Processing;
 
@@ -13,9 +14,10 @@ public static class TelemetryAnalytics
     public static int CountByStatus(
         IEnumerable<TelemetryReading> readings,
         SensorType type,
-        SafetyStatus target)
+        SafetyStatus target,
+        SensorEvaluatorRegistry registry)
     {
-        return readings.Count(r => StatusEvaluator.Evaluate(type, r.Value) == target);
+        return readings.Count(r => registry.Evaluate(type, r.Value) == target);
     }
 
     // Ковзне середнє за вікном N показів — типова аналітична задача для телеметрії
@@ -39,10 +41,11 @@ public static class TelemetryAnalytics
     /// </summary>
     /// <returns>Час першого критичного показу або null, якщо таких показів немає.</returns>
     public static DateTime? FirstCriticalTimestamp(
-        IEnumerable<TelemetryReading> readings, SensorType type)
+        IEnumerable<TelemetryReading> readings, SensorType type,
+        SensorEvaluatorRegistry registry)
     {
         return readings
-            .Where(r => StatusEvaluator.Evaluate(type, r.Value) == SafetyStatus.Critical)
+            .Where(r => registry.Evaluate(type, r.Value) == SafetyStatus.Critical)
             .Select(r => (DateTime?)r.Timestamp)
             .FirstOrDefault();
     }
